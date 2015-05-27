@@ -1,0 +1,123 @@
+<!--
+// OBSERVER PATTERN
+
+// http://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjavascript
+
+// There is a subject and there are observers who listens for changes to the subject.
+// in other words when the subject changes it notifies its list of observers
+
+// We have subject, observer, concreteSubject, concreteObservers
+-->
+<html>
+<body>
+    <button id="add-observer">add observer radio buttons</button>
+    <input id="subject" type="checkbox">subject: checkbox</input>
+    <div id="observers-container"></div>
+</body>
+<script>
+// OBSERVER
+function Observer () {
+    this.update = function () {
+        // we'll override this later
+    }
+}
+
+// OBSERVER LIST
+function ObserverList () {
+    this.observerList = [];
+}
+
+ObserverList.prototype = {
+    add: function (obj) {
+        this.observerList.push(obj);
+    },
+
+    get: function (index) {
+        if (index < 0 || index >= this.observerList.length) {
+            return null;
+        }
+
+        return this.observerList[index];
+    },
+
+    remove: function (index) {
+        if (index < 0 || index >= this.observerList.length) {
+            return null;
+        }
+
+        return this.observerList[index];
+    },
+
+    indexOf: function (obj) {
+        for(var i=0; i<this.observerList.length; i++) {
+            if (obj === this.observerList[i]) {
+                return i
+            }
+        }
+
+        return -1;
+    },
+
+    count: function () {
+        return this.observerList.length;
+    }
+}
+
+// SUBJECT
+
+function Subject () {
+    this.observers = new ObserverList();
+}
+
+Subject.prototype = {
+    addObserver: function (observer) {
+        this.observers.add(observer);
+    },
+
+    removeObserver: function (observer) {
+        var index = this.observers.indexOf(observer);
+        this.observers.remove(index);
+    },
+
+    notify: function (value) {
+        var count = this.observers.count();
+
+        for(var i=0; i<count; i++) {
+            this.observers.get(i).update(value);
+        }
+    }
+}
+
+
+function extend (extension, obj) {
+    for (var key in extension) {
+        obj[key] = extension[key];
+    }
+};
+
+var subjectNode = document.getElementById("subject");
+var observerContainerNode = document.getElementById("observers-container");
+var addObserverButton = document.getElementById("add-observer");
+
+extend(new Subject(), subjectNode);
+
+addObserverButton.onclick =  function () {
+    var check = document.createElement("input");
+    check.type = "checkbox";
+
+    extend(new Observer(), check);
+
+    check.update = function (value) {
+        this.checked = value;
+    };
+
+    subjectNode.addObserver(check);
+    observerContainerNode.appendChild(check);
+};
+
+subjectNode.onclick = function(e) {
+    var checked = e.target.checked;
+    subjectNode.notify(checked);
+};
+</script>
+</html>

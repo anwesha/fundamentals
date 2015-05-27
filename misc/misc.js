@@ -81,4 +81,4 @@ console.log(mult.replace(/rain|go/gi, "boohoo"));
 // NOTE :: s+ works better than s, because it replaces multiple spaces with one space
 console.log("\n\n");
 var mult = "rain RAIN   go away";
-console.log(mult.replace(/\s+/g, ""));
+console.log(mult.replace(/\s+/, ""));

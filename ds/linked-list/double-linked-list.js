@@ -47,6 +47,7 @@ doubleLinkedList.prototype = {
                     next.prev = prev;
                 } else if (prev) {
                     prev.next = null;
+                    this._tail = prev;
                 }
             }
             cur = cur.next;

@@ -26,7 +26,6 @@ function fibRec(num) {
     if (num < 2) {
         return 1;
     }
-    console.log('hi');
     return fibRec(num - 2) + fibRec(num -1);
 }
 
